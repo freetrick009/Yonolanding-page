@@ -1,9 +1,375 @@
-<!DOCTYPE html>
-<html>
+"<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Yono Landing</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YONO SLOT VOUCHER</title>
+
+<style>
+.popup-image{
+    width:calc(100% + 70px);
+    margin:-35px -35px 20px -35px;
+    border-radius:24px 24px 0 0;
+    display:block;
+}
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background-image: url("background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color:#fff;
+  font-family: 'Poppins', sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.card{
+  width:90%;
+  max-width:420px;
+  padding:35px;
+  border-radius:24px;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(15px);
+
+  border:1px solid rgba(255,255,255,0.15);
+
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.4),
+    0 0 20px rgba(0,170,255,0.2);
+
+  animation: popup 0.4s ease;
+}
+
+@keyframes popup{
+  from{
+    opacity:0;
+    transform:translateY(30px) scale(0.95);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+#loading1,
+#loading2,
+#voucherPopup,
+#channelPopup{
+  display:none;
+}
+
+h2{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:0.5px;
+    margin-bottom:15px;
+    text-shadow:0 2px 15px rgba(0,170,255,.5);
+}
+
+h3{
+    font-size:24px;
+    font-weight:800;
+    margin-bottom:14px;
+}
+input{
+  width:100%;
+  padding:16px;
+  border-radius:14px;
+
+  border:1px solid rgba(255,255,255,0.2);
+
+  background:rgba(255,255,255,0.1);
+  color:white;
+  font-size:16px;
+}
+
+input::placeholder{
+  color:#ccc;
+}
+
+button,
+.channel-btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:#00aaff;
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+  text-decoration:none;
+  display:block;
+  margin-top:12px;
+}
+
+.progress{
+  width:100%;
+  height:14px;
+  background:#333;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:20px;
+}
+
+.bar{
+  width:0%;
+  height:100%;
+  background:#00aaff;
+}
+.search-icon{
+    display:inline-block;
+    animation: searchMove 1s ease-in-out infinite;
+}
+.dots::after{
+    content: "";
+    animation: dots 1.5s steps(4,end) infinite;
+}
+
+@keyframes dots{
+    0%   { content: ""; }
+    25%  { content: "."; }
+    50%  { content: ".."; }
+    75%  { content: "..."; }
+    100% { content: ""; }
+}
+@keyframes searchMove{
+    0% { transform: translateX(0); }
+    50% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+.percent{
+  margin-top:15px;
+  font-size:18px;
+  font-weight:bold;
+}
+.search-icon{
+    display:inline-block;
+    animation:searchMove 1s ease-in-out infinite;
+}
+
+.hourglass{
+    display:inline-block;
+    animation:hourglassRotate 1s linear infinite;
+}
+
+.dots::after{
+    content:"";
+    animation:dots 1.5s steps(4,end) infinite;
+}
+
+@keyframes searchMove{
+    0%   { transform: translateX(0); }
+    50%  { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+@keyframes hourglassRotate{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes dots{
+    0%{content:"";}
+    25%{content:".";}
+    50%{content:"..";}
+    75%{content:"...";}
+    100%{content:"";}
+}
+.mic{
+    display:inline-block;
+    animation: speak 0.6s infinite;
+    transform-origin: left center;
+}
+
+@keyframes speak{
+    0%{transform:rotate(0deg);}
+    20%{transform:rotate(-12deg);}
+    40%{transform:rotate(12deg);}
+    60%{transform:rotate(-12deg);}
+    80%{transform:rotate(12deg);}
+    100%{transform:rotate(0deg);}
+}
+</style>
 </head>
 <body>
-    <h1>Hello World!</h1>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+function partyEffect() {
+  confetti({
+    particleCount: 100,
+    spread: 100,
+    origin: { y: 0.6 }
+  });
+}
+</script>
+
+<!-- UID SCREEN -->
+<div id="uidSection" class="card">
+  <h2>👇ENTER UID👇</h2>
+
+  <input type="text" id="uid" placeholder="Enter UID">
+
+  <button onclick="startLoading1()">
+    Continue
+  </button>
+</div>
+
+<!-- FIRST LOADING -->
+<div id="loading1" class="card">
+<h3>
+    <span class="search-icon">🔍</span>
+    Finding Your UID<span class="dots"></span>
+    <span class="hourglass">⏳</span>
+</h3>
+  <div id="percent1" class="percent">0%</div>
+
+  <div class="progress">
+    <div id="bar1" class="bar"></div>
+  </div>
+</div>
+
+<!-- VOUCHER POPUP -->
+<div id="voucherPopup" class="card">
+    <img src="voucher.png" class="popup-image">
+
+    <div class="content">
+        <h3>𝐂𝐎𝐍𝐆𝐑𝐀𝐓𝐔𝐋𝐀𝐓𝐈𝐎𝐍𝐒 𝐘𝐎𝐔 𝐎𝐖𝐍 𝐀 𝟓₹ 𝐁𝐄𝐓 𝐕𝐎𝐔𝐂𝐇𝐄𝐑 🎉🤩</h3>
+
+        <p>👇ᴛᴀᴘ ᴛʜᴇ ʙᴜᴛᴛᴏɴ ᴛᴏ ᴄʟᴀɪᴍ ʏᴏᴜʀ ᴠᴏᴜᴄʜᴇʀ👇</p>
+
+        <button onclick="startLoading2()">
+            𝐂𝐋𝐀𝐈𝐌 🧧 
+        </button>
+    </div>
+</div>
+<!-- SECOND LOADING -->
+<div id="loading2" class="card">
+  <h3>⏳ Processing Your Request...</h3>
+
+  <div id="percent2" class="percent">0%</div>
+
+  <div class="progress">
+    <div id="bar2" class="bar"></div>
+  </div>
+</div>
+
+<!-- CHANNEL SCREEN -->
+<div id="channelPopup" class="card">
+<h3>
+    <span class="mic">📢</span>
+   𝐉𝐨𝐢𝐧 𝐀𝐥𝐥 𝐂𝐡𝐚𝐧𝐧𝐞𝐥𝐬 𝐓𝐨 𝐜𝐥𝐚𝐢𝐦  𝐕𝐨𝐮𝐜𝐡𝐞𝐫 𝐂𝐨𝐝𝐞
+    <span class="mic">🚨</span>
+</h3>
+  <p>
+    📌 Please join all channels below to continue.
+  </p>
+
+<a class="channel-btn" href="https://t.me/yourchannel1" target="_blank" onclick="markJoined()">
+JOIN
+</a>
+
+<a class="channel-btn" href="https://t.me/yourchannel1" target="_blank" onclick="markJoined()">
+JOIN
+</a>
+<a class="channel-btn" href="https://t.me/yourchannel1" target="_blank" onclick="markJoined()">
+JOIN
+</a>
+<a class="channel-btn" href="https://t.me/yourchannel1" target="_blank" onclick="markJoined()">
+JOIN
+</a>
+<a class="channel-btn" href="https://t.me/yourchannel1" target="_blank" onclick="markJoined()">
+JOIN
+</a>
+<a class="channel-btn" href="https://t.me/yourchannel1" target="_blank" onclick="markJoined()">
+JOIN
+</a>
+<button id="claimBtn" onclick="claimCode()" style="background:red;">
+    CLAIM CODE
+</button>
+</div>
+
+<script>
+function animate(percentId, barId, callback){
+  let percent = 0;
+
+  const timer = setInterval(() => {
+    percent++;
+
+    document.getElementById(percentId).innerText =
+      percent + "%";
+
+    document.getElementById(barId).style.width =
+      percent + "%";
+
+    if (percent >= 100) {
+      clearInterval(timer);
+      callback();
+    }
+  }, 40); // ~4 seconds
+}
+
+function startLoading1(){
+  const uid = document.getElementById("uid").value.trim();
+
+  if(!uid){
+    alert("Please enter your UID.");
+    return;
+  }
+
+  document.getElementById("uidSection").style.display =
+    "none";
+
+  document.getElementById("loading1").style.display =
+    "block";
+
+  animate("percent1","bar1",() => {
+    document.getElementById("loading1").style.display = "none";
+
+    partyEffect();
+
+    setTimeout(() => {
+        document.getElementById("voucherPopup").style.display = "block";
+    }, 300);
+});
+}
+
+function startLoading2(){
+  document.getElementById("voucherPopup").style.display =
+    "none";
+
+  document.getElementById("loading2").style.display =
+    "block";
+
+  animate("percent2","bar2",() => {
+    document.getElementById("loading2").style.display =
+      "none";
+
+    document.getElementById("channelPopup").style.display =
+      "block";
+  });
+}
+let joined = 0;
+
+function markJoined() {
+    joined++;
+}
+
+function claimCode() {
+    if (joined < 6) {
+        alert("⚠️ Must Join All Channels!");
+    } else {
+        alert("✅ Congratulations! Your voucher code is ready.");
+    }
+}ls
+</script>
+
 </body>
-</html>
+</html>bh "
