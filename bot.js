@@ -1,17 +1,15 @@
-const { Telegraf, Markup } = require("telegraf");
+const { Markup } = require("telegraf");
 
-const bot = new Telegraf("YOUR_BOT_TOKEN");
-
-bot.start((ctx)=>{
+bot.start((ctx) => {
   ctx.reply(
     "🎁 Welcome to YONO SLOT VOUCHER",
     Markup.inlineKeyboard([
-      Markup.button.webApp(
-        "🚀 Open Voucher App",
-        "https://earn-n-tipsyono.netlify.app"
-      )
+      [
+        Markup.button.webApp(
+          "🚀 Open App",
+          "https://earn-n-tipsyono.netlify.app"
+        )
+      ]
     ])
   );
 });
-
-bot.launch();
