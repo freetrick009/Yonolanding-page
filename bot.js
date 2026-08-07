@@ -1,8 +1,10 @@
-const { Markup } = require("telegraf");
+const { Telegraf, Markup } = require("telegraf");
+
+const bot = new Telegraf("8994999052:AAFrrV0d8VYklHKs_eJjyUbVDPglbPBJgRk");
 
 bot.start((ctx) => {
   ctx.reply(
-    "🎁 Welcome to YONO SLOT VOUCHER",
+    "🎁 Welcome",
     Markup.inlineKeyboard([
       [
         Markup.button.webApp(
@@ -13,3 +15,7 @@ bot.start((ctx) => {
     ])
   );
 });
+
+bot.launch();
+
+console.log("Bot is running");
